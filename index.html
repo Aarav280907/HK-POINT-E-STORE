@@ -11,7 +11,7 @@
     <header class="header">
         <div class="header-content">
             <div class="logo-section">
-                <div class="logo-placeholder">HK</div>
+                <div class="logo-placeholder" aria-label="HK Point logo"><svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="10" fill="#ef8354"/><path d="M12 13v22m0-11h12m0-11v22M31 13h5a5 5 0 0 1 0 10h-5m0 0h5a5 5 0 0 1 0 10h-5" fill="none" stroke="#fffaf2" stroke-width="3" stroke-linecap="round"/></svg></div>
                 <div>
                     <h1 id="shopName"></h1>
                     <p id="tagline"></p>
@@ -20,6 +20,8 @@
             <nav class="nav-menu">
                 <a href="#products">Products</a>
                 <a href="#contact">Contact Us</a>
+                <button class="account-button" id="accountButton" type="button">Account</button>
+                <button class="account-button" id="adminButton" type="button">Admin</button>
                 <button class="cart-button" id="cartButton" type="button" aria-label="Open shopping list">
                     Shopping list <span id="cartCount">0</span>
                 </button>
@@ -69,23 +71,23 @@
                 <div class="contact-info">
                     <h3>Store Details</h3>
                     <div class="info-item">
-                        <h4>📍 Address</h4>
+                        <h4><span class="inline-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg></span> Address</h4>
                         <p id="address"></p>
                     </div>
                     <div class="info-item">
-                        <h4>📞 Phone</h4>
+                        <h4><span class="inline-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h3l1.5 4-2 1.7a14 14 0 0 0 5.8 5.8L17 12.5 21 14v3c0 1.1-.9 2-2 2C10.7 19 5 13.3 5 5a2 2 0 0 1 2-2Z"/></svg></span> Phone</h4>
                         <a id="phoneLink" href=""></a>
                     </div>
                     <div class="info-item">
-                        <h4>🕐 Store Timings</h4>
+                        <h4><span class="inline-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg></span> Store Timings</h4>
                         <p id="timings"></p>
                     </div>
                     <div class="info-item">
-                        <h4>✉️ Email</h4>
+                        <h4><span class="inline-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="m4 7 8 6 8-6"/></svg></span> Email</h4>
                         <a id="emailLink" href=""></a>
                     </div>
                     <div class="info-item">
-                        <h4>💬 WhatsApp</h4>
+                        <h4><span class="inline-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4.1A8 8 0 1 1 20 11.5Z"/><path d="M9 8.5c.3 2 1.5 3.2 3.5 4.5 1.2.8 2.4 1 3 .3l.7-.8"/></svg></span> WhatsApp</h4>
                         <a id="whatsappLink" href="" target="_blank">Message us on WhatsApp</a>
                     </div>
                 </div>
@@ -111,20 +113,28 @@
     <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
         <div class="drawer-header"><div><p class="eyebrow">Your shortlist</p><h2>Shopping list</h2></div><button id="closeCart" class="icon-button" type="button" aria-label="Close shopping list">×</button></div>
         <div id="cartItems" class="cart-items"></div>
-        <div class="drawer-footer"><div class="cart-total"><span>Estimated total</span><strong id="cartTotal">₹0</strong></div><button id="whatsappCart" class="whatsapp-button" type="button">Ask about these items <span>↗</span></button></div>
+        <div class="drawer-footer"><div class="cart-total"><span>Estimated total</span><strong id="cartTotal">₹0</strong></div><button id="checkoutButton" class="checkout-button" type="button">Continue to checkout <span>→</span></button><button id="whatsappCart" class="whatsapp-button" type="button">Ask about these items <span>↗</span></button></div>
     </aside>
     <div class="drawer-backdrop" id="drawerBackdrop"></div>
     <div class="toast" id="toast" role="status"></div>
 
+    <div class="modal" id="accountModal" aria-hidden="true"><div class="modal-card"><button class="modal-close" data-close-modal="accountModal" aria-label="Close account">×</button><p class="eyebrow">Customer access</p><h2 id="accountTitle">Sign in</h2><form id="accountForm"><label>Email<input id="customerEmail" type="email" required autocomplete="email"></label><label>Password<input id="customerPassword" type="password" required minlength="6" autocomplete="current-password"></label><button class="primary-button" type="submit">Sign in</button></form><button class="text-button" id="customerRegister" type="button">Create a customer account</button><p class="modal-status" id="accountStatus"></p></div></div>
+    <div class="modal" id="adminModal" aria-hidden="true"><div class="modal-card admin-card"><button class="modal-close" data-close-modal="adminModal" aria-label="Close admin">×</button><p class="eyebrow">Store management</p><h2>Admin login</h2><form id="adminForm"><label>Admin email<input id="adminEmail" type="email" required autocomplete="username"></label><label>Password<input id="adminPassword" type="password" required autocomplete="current-password"></label><button class="primary-button" type="submit">Open admin panel</button></form><p class="modal-status" id="adminStatus">Demo access: admin@hkpoint.com / admin123</p><div id="adminEditor" class="admin-editor" hidden><div class="editor-heading"><h3>Edit product</h3><button id="adminLogout" class="text-button" type="button">Lock panel</button></div><form id="productEditForm"><label>Product<select id="editProduct" required></select></label><label>Price (₹)<input id="editPrice" type="number" min="0" step="1" required></label><label>Discount (%)<input id="editDiscount" type="number" min="0" max="100" step="1" value="0" required></label><label>Availability<input id="editAvailability" type="text" maxlength="30" placeholder="In store" required></label><button class="primary-button" type="submit">Save product changes</button></form><p class="modal-status" id="editorStatus"></p></div></div></div>
+    <div class="modal" id="checkoutModal" aria-hidden="true"><div class="modal-card checkout-card"><button class="modal-close" data-close-modal="checkoutModal" aria-label="Close checkout">×</button><p class="eyebrow">Secure checkout</p><h2>Complete your order</h2><form id="checkoutForm"><label>Full name<input id="checkoutName" required autocomplete="name"></label><label>Mobile number<input id="checkoutPhone" type="tel" required autocomplete="tel"></label><label>Delivery address<textarea id="checkoutAddress" rows="3" required autocomplete="street-address"></textarea></label><div class="payment-options"><strong>Payment method</strong><label><input type="radio" name="payment" value="upi" checked> UPI</label><label><input type="radio" name="payment" value="cod"> Cash on delivery</label></div><button class="primary-button" type="submit">Place order <span id="checkoutTotal">₹0</span></button></form><p class="modal-status" id="checkoutStatus">UPI will open your payment app after order confirmation.</p></div></div>
+
     <script>
         let storeData;
-        let shortlist = [];
+        let shortlist = JSON.parse(localStorage.getItem('hkCart') || '[]');
+        let currentCustomer = JSON.parse(localStorage.getItem('hkCustomer') || 'null');
+        let productOverrides = JSON.parse(localStorage.getItem('hkProductOverrides') || '{}');
+        let adminUnlocked = false;
 
         async function loadStoreData() {
             try {
                 const response = await fetch('store-data.json');
                 const data = await response.json();
                 storeData = data;
+                applyProductOverrides();
 
                 // Populate header
                 document.getElementById('shopName').textContent = data.store.name;
@@ -173,12 +183,12 @@
                         const productCard = document.createElement('div');
                         productCard.className = 'product-card';
                         productCard.innerHTML = `
-                            <div class="product-image"><img src="${product.image}" alt="${product.brand}" loading="lazy"><span class="availability">In store</span></div>
+                            <div class="product-image"><img src="${product.image}" alt="${product.brand}" loading="lazy"><span class="availability">${product.availability || 'In store'}</span></div>
                             <div class="product-info">
                                 <h4>${product.brand}</h4>
-                                <p class="price">₹${product.price.toLocaleString()}</p>
+                                <p class="price">${product.discountPercent ? `<s>₹${product.price.toLocaleString()}</s> ₹${getProductPrice(product).toLocaleString()} <small>${product.discountPercent}% off</small>` : `₹${product.price.toLocaleString()}`}</p>
                                 <p class="contact-note">Add to your shortlist to ask about delivery and availability.</p>
-                                <button class="contact-btn" type="button" data-product="${product.brand}">${shortlist.some(item => item.brand === product.brand) ? 'Added to list' : 'Add to list'} <span>＋</span></button>
+                                <button class="contact-btn" type="button" data-product="${product.brand}">${shortlist.some(item => item.product.brand === product.brand) ? 'Add one more' : 'Add to cart'} <span>＋</span></button>
                             </div>
                         `;
                         productCard.querySelector('.contact-btn').addEventListener('click', () => addToShortlist(product));
@@ -193,23 +203,87 @@
         }
 
         function addToShortlist(product) {
-            if (shortlist.some(item => item.brand === product.brand)) {
-                shortlist = shortlist.filter(item => item.brand !== product.brand);
-                showToast('Removed from your shortlist');
-            } else {
-                shortlist.push(product);
-                showToast('Added to your shortlist');
-            }
+            const existing = shortlist.find(item => item.product.brand === product.brand);
+            if (existing) existing.quantity += 1;
+            else shortlist.push({ product, quantity: 1 });
+            persistCart();
+            showToast(existing ? 'Quantity increased' : 'Added to cart');
+            renderProducts();
+            renderCart();
+        }
+
+        function getProductPrice(product) {
+            return Math.round(product.price * (1 - (Number(product.discountPercent) || 0) / 100));
+        }
+
+        function applyProductOverrides() {
+            storeData.categories.forEach(category => category.products.forEach(product => {
+                const override = productOverrides[product.brand];
+                if (override) Object.assign(product, override);
+            }));
+        }
+
+        function getAllProducts() {
+            return storeData.categories.flatMap(category => category.products);
+        }
+
+        function renderAdminProducts() {
+            const productSelect = document.getElementById('editProduct');
+            productSelect.innerHTML = getAllProducts().map(product => `<option value="${product.brand}">${product.brand}</option>`).join('');
+            loadProductIntoEditor();
+        }
+
+        function loadProductIntoEditor() {
+            const product = getAllProducts().find(item => item.brand === document.getElementById('editProduct').value);
+            if (!product) return;
+            document.getElementById('editPrice').value = product.price;
+            document.getElementById('editDiscount').value = product.discountPercent || 0;
+            document.getElementById('editAvailability').value = product.availability || 'In store';
+        }
+
+        function handleProductEdit(event) {
+            event.preventDefault();
+            if (!adminUnlocked) return;
+            const brand = document.getElementById('editProduct').value;
+            const product = getAllProducts().find(item => item.brand === brand);
+            if (!product) return;
+            const changes = {
+                price: Number(document.getElementById('editPrice').value),
+                discountPercent: Number(document.getElementById('editDiscount').value),
+                availability: document.getElementById('editAvailability').value.trim() || 'In store'
+            };
+            productOverrides[brand] = changes;
+            localStorage.setItem('hkProductOverrides', JSON.stringify(productOverrides));
+            Object.assign(product, changes);
+            shortlist.forEach(item => { if (item.product.brand === brand) Object.assign(item.product, changes); });
+            persistCart();
+            renderProducts();
+            renderCart();
+            document.getElementById('editorStatus').textContent = `${brand} updated successfully.`;
+            showToast('Product details saved');
+        }
+
+        function persistCart() { localStorage.setItem('hkCart', JSON.stringify(shortlist)); }
+        function updateQuantity(brand, change) {
+            const item = shortlist.find(entry => entry.product.brand === brand);
+            if (!item) return;
+            item.quantity += change;
+            if (item.quantity <= 0) shortlist = shortlist.filter(entry => entry.product.brand !== brand);
+            persistCart();
             renderProducts();
             renderCart();
         }
 
         function renderCart() {
             const cartItems = document.getElementById('cartItems');
-            document.getElementById('cartCount').textContent = shortlist.length;
-            document.getElementById('cartTotal').textContent = `₹${shortlist.reduce((total, item) => total + item.price, 0).toLocaleString()}`;
-            cartItems.innerHTML = shortlist.length ? shortlist.map(item => `<div class="cart-item"><img src="${item.image}" alt=""><div><strong>${item.brand}</strong><span>₹${item.price.toLocaleString()}</span></div><button type="button" aria-label="Remove ${item.brand}" data-remove="${item.brand}">×</button></div>`).join('') : '<div class="cart-empty"><span>＋</span><p>Your shortlist is empty.</p><small>Add products you would like to discuss with us.</small></div>';
-            cartItems.querySelectorAll('[data-remove]').forEach(button => button.addEventListener('click', () => addToShortlist(shortlist.find(item => item.brand === button.dataset.remove))));
+            const itemCount = shortlist.reduce((total, item) => total + item.quantity, 0);
+            const total = shortlist.reduce((sum, item) => sum + getProductPrice(item.product) * item.quantity, 0);
+            document.getElementById('cartCount').textContent = itemCount;
+            document.getElementById('cartTotal').textContent = `₹${total.toLocaleString()}`;
+            document.getElementById('checkoutTotal').textContent = `₹${total.toLocaleString()}`;
+            cartItems.innerHTML = shortlist.length ? shortlist.map(item => `<div class="cart-item"><img src="${item.product.image}" alt=""><div><strong>${item.product.brand}</strong><span>₹${(getProductPrice(item.product) * item.quantity).toLocaleString()}</span><div class="quantity-control"><button type="button" data-quantity="-1" data-brand="${item.product.brand}" aria-label="Decrease quantity">−</button><b>${item.quantity}</b><button type="button" data-quantity="1" data-brand="${item.product.brand}" aria-label="Increase quantity">＋</button></div></div><button type="button" aria-label="Remove ${item.product.brand}" data-remove="${item.product.brand}">×</button></div>`).join('') : '<div class="cart-empty"><span>＋</span><p>Your cart is empty.</p><small>Add products you would like to buy.</small></div>';
+            cartItems.querySelectorAll('[data-quantity]').forEach(button => button.addEventListener('click', () => updateQuantity(button.dataset.brand, Number(button.dataset.quantity))));
+            cartItems.querySelectorAll('[data-remove]').forEach(button => button.addEventListener('click', () => updateQuantity(button.dataset.remove, -shortlist.find(item => item.product.brand === button.dataset.remove).quantity)));
         }
 
         function toggleCart(open) {
@@ -227,8 +301,68 @@
 
         function askOnWhatsApp() {
             if (!shortlist.length) { showToast('Add a product first'); return; }
-            const message = `Hello HK Electronics, I would like details about:\n${shortlist.map(item => `- ${item.brand}`).join('\n')}`;
+            const message = `Hello HK Electronics, I would like details about:\n${shortlist.map(item => `- ${item.product.brand} x ${item.quantity}`).join('\n')}`;
             window.open(`https://wa.me/${storeData.contact.whatsapp}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.add('is-visible');
+            modal.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('is-visible');
+            modal.setAttribute('aria-hidden', 'true');
+        }
+
+        function handleCustomerSubmit(event) {
+            event.preventDefault();
+            currentCustomer = { email: document.getElementById('customerEmail').value.trim() };
+            localStorage.setItem('hkCustomer', JSON.stringify(currentCustomer));
+            document.getElementById('accountStatus').textContent = `Signed in as ${currentCustomer.email}`;
+            document.getElementById('accountButton').textContent = 'My account';
+            showToast('Customer account ready');
+        }
+
+        function handleAdminSubmit(event) {
+            event.preventDefault();
+            const email = document.getElementById('adminEmail').value.trim();
+            const password = document.getElementById('adminPassword').value;
+            const status = document.getElementById('adminStatus');
+            if (email === 'admin@hkpoint.com' && password === 'admin123') {
+                adminUnlocked = true;
+                status.textContent = 'Admin access granted for this browser session.';
+                status.classList.add('success');
+                document.getElementById('adminEditor').hidden = false;
+                renderAdminProducts();
+                showToast('Admin panel unlocked');
+            } else {
+                adminUnlocked = false;
+                status.textContent = 'Invalid demo admin credentials.';
+                status.classList.remove('success');
+            }
+        }
+
+        function handleCheckoutSubmit(event) {
+            event.preventDefault();
+            if (!shortlist.length) { showToast('Add a product first'); closeModal('checkoutModal'); return; }
+            const total = shortlist.reduce((sum, item) => sum + getProductPrice(item.product) * item.quantity, 0);
+            const payment = document.querySelector('input[name="payment"]:checked').value;
+            const orderId = `HK${Date.now().toString().slice(-6)}`;
+            const status = document.getElementById('checkoutStatus');
+            const details = `Order ${orderId} for ₹${total.toLocaleString()} placed successfully.`;
+            if (payment === 'upi') {
+                window.location.href = `upi://pay?pa=hkpoint@upi&pn=HK%20Point&am=${total}&cu=INR&tn=${encodeURIComponent(orderId)}`;
+                status.textContent = `${details} Complete payment in your UPI app.`;
+            } else {
+                status.textContent = `${details} We will confirm your COD delivery by phone.`;
+            }
+            shortlist = [];
+            persistCart();
+            renderCart();
+            renderProducts();
         }
 
         function scrollToContact() {
@@ -276,6 +410,18 @@
         document.getElementById('closeCart').addEventListener('click', () => toggleCart(false));
         document.getElementById('drawerBackdrop').addEventListener('click', () => toggleCart(false));
         document.getElementById('whatsappCart').addEventListener('click', askOnWhatsApp);
+        document.getElementById('accountButton').addEventListener('click', () => openModal('accountModal'));
+        document.getElementById('adminButton').addEventListener('click', () => openModal('adminModal'));
+        document.getElementById('checkoutButton').addEventListener('click', () => shortlist.length ? openModal('checkoutModal') : showToast('Add a product first'));
+        document.getElementById('accountForm').addEventListener('submit', handleCustomerSubmit);
+        document.getElementById('adminForm').addEventListener('submit', handleAdminSubmit);
+        document.getElementById('productEditForm').addEventListener('submit', handleProductEdit);
+        document.getElementById('editProduct').addEventListener('change', loadProductIntoEditor);
+        document.getElementById('adminLogout').addEventListener('click', () => { adminUnlocked = false; document.getElementById('adminEditor').hidden = true; document.getElementById('adminStatus').textContent = 'Admin panel locked.'; });
+        document.getElementById('checkoutForm').addEventListener('submit', handleCheckoutSubmit);
+        document.getElementById('customerRegister').addEventListener('click', () => { document.getElementById('accountTitle').textContent = 'Create account'; document.getElementById('accountStatus').textContent = 'Use your email and a six-character password.'; });
+        document.querySelectorAll('[data-close-modal]').forEach(button => button.addEventListener('click', () => closeModal(button.dataset.closeModal)));
+        document.querySelectorAll('.modal').forEach(modal => modal.addEventListener('click', event => { if (event.target === modal) closeModal(modal.id); }));
 
         // Load data on page load
         window.addEventListener('DOMContentLoaded', loadStoreData);
