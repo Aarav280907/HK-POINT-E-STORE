@@ -58,7 +58,7 @@
                 <label class="search-box" for="productSearch"><span>⌕</span><input id="productSearch" type="search" placeholder="Search TVs, mixers, brands..." autocomplete="off"></label>
                 <label class="filter-box" for="categoryFilter"><span>Category</span><select id="categoryFilter"><option value="all">All products</option></select></label>
             </div>
-            <div id="categoriesContainer"></div>
+            <div id="categoriesContainer" aria-live="polite"></div>
             <p id="emptyState" class="empty-state" hidden>No products match that search. Try another brand or category.</p>
         </div>
     </section>
@@ -113,13 +113,13 @@
     <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
         <div class="drawer-header"><div><p class="eyebrow">Your shortlist</p><h2>Shopping list</h2></div><button id="closeCart" class="icon-button" type="button" aria-label="Close shopping list">×</button></div>
         <div id="cartItems" class="cart-items"></div>
-        <div class="drawer-footer"><div class="cart-total"><span>Estimated total</span><strong id="cartTotal">₹0</strong></div><button id="checkoutButton" class="checkout-button" type="button">Continue to checkout <span>→</span></button><button id="whatsappCart" class="whatsapp-button" type="button">Ask about these items <span>↗</span></button></div>
+        <div class="drawer-footer"><div class="cart-total"><span>Estimated total</span><strong id="cartTotal">₹0</strong></div><button id="clearCart" class="text-button" type="button">Clear cart</button><button id="checkoutButton" class="checkout-button" type="button">Continue to checkout <span>→</span></button><button id="whatsappCart" class="whatsapp-button" type="button">Ask about these items <span>↗</span></button></div>
     </aside>
     <div class="drawer-backdrop" id="drawerBackdrop"></div>
     <div class="toast" id="toast" role="status"></div>
 
     <div class="modal" id="accountModal" aria-hidden="true"><div class="modal-card"><button class="modal-close" data-close-modal="accountModal" aria-label="Close account">×</button><p class="eyebrow">Customer access</p><h2 id="accountTitle">Sign in</h2><form id="accountForm"><label>Email<input id="customerEmail" type="email" required autocomplete="email"></label><label>Password<input id="customerPassword" type="password" required minlength="6" autocomplete="current-password"></label><button class="primary-button" type="submit">Sign in</button></form><button class="text-button" id="customerRegister" type="button">Create a customer account</button><p class="modal-status" id="accountStatus"></p></div></div>
-    <div class="modal" id="adminModal" aria-hidden="true"><div class="modal-card admin-card"><button class="modal-close" data-close-modal="adminModal" aria-label="Close admin">×</button><p class="eyebrow">Store management</p><h2>Admin login</h2><form id="adminForm"><label>Admin email<input id="adminEmail" type="email" required autocomplete="username"></label><label>Password<input id="adminPassword" type="password" required autocomplete="current-password"></label><button class="primary-button" type="submit">Open admin panel</button></form><p class="modal-status" id="adminStatus">Demo access: admin@hkpoint.com / admin123</p><div id="adminEditor" class="admin-editor" hidden><div class="editor-heading"><h3>Edit product</h3><button id="adminLogout" class="text-button" type="button">Lock panel</button></div><form id="productEditForm"><label>Product<select id="editProduct" required></select></label><label>Price (₹)<input id="editPrice" type="number" min="0" step="1" required></label><label>Discount (%)<input id="editDiscount" type="number" min="0" max="100" step="1" value="0" required></label><label>Availability<input id="editAvailability" type="text" maxlength="30" placeholder="In store" required></label><button class="primary-button" type="submit">Save product changes</button></form><p class="modal-status" id="editorStatus"></p></div></div></div>
+    <div class="modal" id="adminModal" aria-hidden="true"><div class="modal-card admin-card"><button class="modal-close" data-close-modal="adminModal" aria-label="Close admin">×</button><p class="eyebrow">Store management</p><h2>Admin demo panel</h2><p class="security-note">GitHub Pages cannot securely authenticate administrators. This browser-only demo stores changes locally and must not be used for production access.</p><form id="adminForm"><button class="primary-button" type="submit">Open demo admin panel</button></form><p class="modal-status" id="adminStatus">Demo mode is locked.</p><div id="adminEditor" class="admin-editor" hidden><div class="editor-heading"><h3>Edit product</h3><button id="adminLogout" class="text-button" type="button">Lock panel</button></div><form id="productEditForm"><label>Product<select id="editProduct" required></select></label><label>Price (₹)<input id="editPrice" type="number" min="0" step="1" required></label><label>Discount (%)<input id="editDiscount" type="number" min="0" max="100" step="1" value="0" required></label><label>Stock<input id="editStock" type="number" min="0" step="1" required></label><label>Availability<input id="editAvailability" type="text" maxlength="30" placeholder="In store" required></label><button class="primary-button" type="submit">Save product changes</button><button id="deleteProduct" class="danger-button" type="button">Delete selected product</button></form><p class="modal-status" id="editorStatus"></p><div class="add-product-section"><h3>Add product</h3><form id="addProductForm"><label>Name<input id="newProductName" required maxlength="80"></label><label>Category<input id="newProductCategory" required maxlength="40" placeholder="TVs"></label><label>Price (₹)<input id="newProductPrice" type="number" min="0" required></label><label>Stock<input id="newProductStock" type="number" min="0" value="10" required></label><label>Image URL<input id="newProductImage" type="url" placeholder="https://..." required></label><label>Description<textarea id="newProductDescription" rows="2" required></textarea></label><button class="primary-button" type="submit">Add product</button></form></div><div class="order-section"><h3>Local orders</h3><div id="adminOrders"></div></div></div></div></div>
     <div class="modal" id="checkoutModal" aria-hidden="true"><div class="modal-card checkout-card"><button class="modal-close" data-close-modal="checkoutModal" aria-label="Close checkout">×</button><p class="eyebrow">Secure checkout</p><h2>Complete your order</h2><form id="checkoutForm"><label>Full name<input id="checkoutName" required autocomplete="name"></label><label>Mobile number<input id="checkoutPhone" type="tel" required autocomplete="tel"></label><label>Delivery address<textarea id="checkoutAddress" rows="3" required autocomplete="street-address"></textarea></label><div class="payment-options"><strong>Payment method</strong><label><input type="radio" name="payment" value="upi" checked> UPI</label><label><input type="radio" name="payment" value="cod"> Cash on delivery</label></div><button class="primary-button" type="submit">Place order <span id="checkoutTotal">₹0</span></button></form><p class="modal-status" id="checkoutStatus">UPI will open your payment app after order confirmation.</p></div></div>
 
     <script>
@@ -138,14 +138,26 @@
         let shortlist = readStoredValue('hkCart', []);
         let currentCustomer = readStoredValue('hkCustomer', null);
         let productOverrides = readStoredValue('hkProductOverrides', {});
+        let orders = readStoredValue('hkOrders', []);
+        if (!Array.isArray(shortlist)) shortlist = [];
+        if (!productOverrides || typeof productOverrides !== 'object' || Array.isArray(productOverrides)) productOverrides = {};
+        if (!Array.isArray(orders)) orders = [];
         let adminUnlocked = false;
 
         async function loadStoreData() {
             try {
                 const response = await fetch('store-data.json');
                 const data = await response.json();
-                storeData = data;
+                storeData = readStoredValue('hkCatalog', null) || data;
                 applyProductOverrides();
+                const catalogProducts = new Map(getAllProducts().map(product => [product.brand, product]));
+                shortlist = shortlist.filter(item => catalogProducts.has(item.product?.brand)).map(item => {
+                    const product = catalogProducts.get(item.product.brand);
+                    item.product = product;
+                    item.quantity = Math.min(Math.max(1, Number(item.quantity) || 1), product.stock);
+                    return item;
+                }).filter(item => item.quantity > 0);
+                persistCart();
 
                 // Populate header
                 document.getElementById('shopName').textContent = data.store.name;
@@ -173,6 +185,7 @@
         }
 
         function renderProducts() {
+            if (!storeData) return;
                 const categoriesContainer = document.getElementById('categoriesContainer');
                 const searchTerm = document.getElementById('productSearch').value.toLowerCase().trim();
                 const selectedCategory = document.getElementById('categoryFilter').value;
@@ -180,12 +193,12 @@
                 let visibleProducts = 0;
 
                 storeData.categories.filter(category => selectedCategory === 'all' || category.name === selectedCategory).forEach(category => {
-                    const products = category.products.filter(product => product.brand.toLowerCase().includes(searchTerm));
+                    const products = category.products.filter(product => [product.brand, product.description, category.name].join(' ').toLowerCase().includes(searchTerm));
                     if (!products.length) return;
                     visibleProducts += products.length;
                     const categoryDiv = document.createElement('div');
                     categoryDiv.className = 'category';
-                    categoryDiv.innerHTML = `<h3>${category.name}</h3>`;
+                    categoryDiv.innerHTML = `<h3>${escapeHTML(category.name)}</h3>`;
 
                     const productsGrid = document.createElement('div');
                     productsGrid.className = 'products-grid';
@@ -194,12 +207,12 @@
                         const productCard = document.createElement('div');
                         productCard.className = 'product-card';
                         productCard.innerHTML = `
-                            <div class="product-image"><img src="${product.image}" alt="${product.brand}" loading="lazy"><span class="availability">${product.availability || 'In store'}</span></div>
+                            <div class="product-image"><img src="${escapeHTML(product.image)}" alt="${escapeHTML(product.brand)}" loading="lazy" onerror="this.hidden=true"><span class="availability">${product.stock === 0 ? 'Out of stock' : escapeHTML(product.availability || 'In store')}</span></div>
                             <div class="product-info">
-                                <h4>${product.brand}</h4>
+                                <h4>${escapeHTML(product.brand)}</h4>
                                 <p class="price">${product.discountPercent ? `<s>₹${product.price.toLocaleString()}</s> ₹${getProductPrice(product).toLocaleString()} <small>${product.discountPercent}% off</small>` : `₹${product.price.toLocaleString()}`}</p>
-                                <p class="contact-note">Add to your shortlist to ask about delivery and availability.</p>
-                                <button class="contact-btn" type="button" data-product="${product.brand}">${shortlist.some(item => item.product.brand === product.brand) ? 'Add one more' : 'Add to cart'} <span>＋</span></button>
+                                <p class="contact-note">${escapeHTML(product.description || 'Ask us about delivery and availability.')}</p>
+                                <button class="contact-btn" type="button" data-product="${escapeHTML(product.brand)}" ${product.stock === 0 ? 'disabled' : ''}>${product.stock === 0 ? 'Out of stock' : (shortlist.some(item => item.product.brand === product.brand) ? 'Add one more' : 'Add to cart')} <span>＋</span></button>
                             </div>
                         `;
                         productCard.querySelector('.contact-btn').addEventListener('click', () => addToShortlist(product));
@@ -214,8 +227,10 @@
         }
 
         function addToShortlist(product) {
+            if (product.stock === 0) { showToast('This product is out of stock'); return; }
             const existing = shortlist.find(item => item.product.brand === product.brand);
-            if (existing) existing.quantity += 1;
+            if (existing && existing.quantity < product.stock) existing.quantity += 1;
+            else if (existing) { showToast('Maximum available stock reached'); return; }
             else shortlist.push({ product, quantity: 1 });
             persistCart();
             showToast(existing ? 'Quantity increased' : 'Added to cart');
@@ -227,10 +242,16 @@
             return Math.round(product.price * (1 - (Number(product.discountPercent) || 0) / 100));
         }
 
+        function escapeHTML(value) {
+            return String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character]);
+        }
+
         function applyProductOverrides() {
             storeData.categories.forEach(category => category.products.forEach(product => {
                 const override = productOverrides[product.brand];
                 if (override) Object.assign(product, override);
+                if (!product.description) product.description = `${category.name} from ${product.brand}. Ask us about delivery and warranty.`;
+                if (!Number.isFinite(Number(product.stock))) product.stock = 10;
             }));
         }
 
@@ -238,9 +259,13 @@
             return storeData.categories.flatMap(category => category.products);
         }
 
+        function persistCatalog() {
+            localStorage.setItem('hkCatalog', JSON.stringify(storeData));
+        }
+
         function renderAdminProducts() {
             const productSelect = document.getElementById('editProduct');
-            productSelect.innerHTML = getAllProducts().map(product => `<option value="${product.brand}">${product.brand}</option>`).join('');
+            productSelect.innerHTML = getAllProducts().map(product => `<option value="${escapeHTML(product.brand)}">${escapeHTML(product.brand)}</option>`).join('');
             loadProductIntoEditor();
         }
 
@@ -249,6 +274,7 @@
             if (!product) return;
             document.getElementById('editPrice').value = product.price;
             document.getElementById('editDiscount').value = product.discountPercent || 0;
+            document.getElementById('editStock').value = product.stock ?? 10;
             document.getElementById('editAvailability').value = product.availability || 'In store';
         }
 
@@ -261,17 +287,75 @@
             const changes = {
                 price: Number(document.getElementById('editPrice').value),
                 discountPercent: Number(document.getElementById('editDiscount').value),
+                stock: Number(document.getElementById('editStock').value),
                 availability: document.getElementById('editAvailability').value.trim() || 'In store'
             };
             productOverrides[brand] = changes;
             localStorage.setItem('hkProductOverrides', JSON.stringify(productOverrides));
             Object.assign(product, changes);
+            persistCatalog();
             shortlist.forEach(item => { if (item.product.brand === brand) Object.assign(item.product, changes); });
             persistCart();
             renderProducts();
             renderCart();
             document.getElementById('editorStatus').textContent = `${brand} updated successfully.`;
+            renderAdminOrders();
             showToast('Product details saved');
+        }
+
+        function handleAddProduct(event) {
+            event.preventDefault();
+            if (!adminUnlocked) return;
+            const name = document.getElementById('newProductName').value.trim();
+            const categoryName = document.getElementById('newProductCategory').value.trim();
+            let category = storeData.categories.find(item => item.name.toLowerCase() === categoryName.toLowerCase());
+            if (!category) {
+                category = { name: categoryName, products: [] };
+                storeData.categories.push(category);
+                document.getElementById('categoryFilter').insertAdjacentHTML('beforeend', `<option value="${escapeHTML(categoryName)}">${escapeHTML(categoryName)}</option>`);
+            }
+            if (getAllProducts().some(product => product.brand.toLowerCase() === name.toLowerCase())) {
+                document.getElementById('editorStatus').textContent = 'A product with that name already exists.';
+                return;
+            }
+            category.products.push({ brand: name, price: Number(document.getElementById('newProductPrice').value), stock: Number(document.getElementById('newProductStock').value), image: document.getElementById('newProductImage').value.trim(), description: document.getElementById('newProductDescription').value.trim(), availability: 'In store' });
+            persistCatalog();
+            renderAdminProducts();
+            renderProducts();
+            document.getElementById('addProductForm').reset();
+            document.getElementById('newProductStock').value = 10;
+            document.getElementById('editorStatus').textContent = `${name} added in demo mode.`;
+        }
+
+        function handleDeleteProduct() {
+            if (!adminUnlocked) return;
+            const brand = document.getElementById('editProduct').value;
+            storeData.categories.forEach(category => { category.products = category.products.filter(product => product.brand !== brand); });
+            delete productOverrides[brand];
+            localStorage.setItem('hkProductOverrides', JSON.stringify(productOverrides));
+            persistCatalog();
+            shortlist = shortlist.filter(item => item.product.brand !== brand);
+            persistCart();
+            renderAdminProducts();
+            renderProducts();
+            renderCart();
+            document.getElementById('editorStatus').textContent = `${brand} deleted in demo mode.`;
+        }
+
+        function clearCart() {
+            shortlist = [];
+            persistCart();
+            renderProducts();
+            renderCart();
+        }
+
+        function renderAdminOrders() {
+            const container = document.getElementById('adminOrders');
+            container.innerHTML = orders.length ? orders.map(order => `<div class="admin-order"><strong>${escapeHTML(order.id)}</strong><span>${escapeHTML(order.status)} · ₹${Number(order.total || 0).toLocaleString()}</span><select data-order-id="${escapeHTML(order.id)}" aria-label="Status for ${escapeHTML(order.id)}">${['Pending', 'Confirmed', 'Processing', 'Shipped', 'Delivered', 'Cancelled'].map(status => `<option ${status === order.status ? 'selected' : ''}>${status}</option>`).join('')}</select></div>`).join('') : '<p class="modal-status">No local orders yet.</p>';
+            container.querySelectorAll('[data-order-id]').forEach(select => select.addEventListener('change', () => {
+                const order = orders.find(item => item.id === select.dataset.orderId);
+                if (order) { order.status = select.value; localStorage.setItem('hkOrders', JSON.stringify(orders)); }
+            }));
         }
 
         function persistCart() { localStorage.setItem('hkCart', JSON.stringify(shortlist)); }
@@ -292,7 +376,7 @@
             document.getElementById('cartCount').textContent = itemCount;
             document.getElementById('cartTotal').textContent = `₹${total.toLocaleString()}`;
             document.getElementById('checkoutTotal').textContent = `₹${total.toLocaleString()}`;
-            cartItems.innerHTML = shortlist.length ? shortlist.map(item => `<div class="cart-item"><img src="${item.product.image}" alt=""><div><strong>${item.product.brand}</strong><span>₹${(getProductPrice(item.product) * item.quantity).toLocaleString()}</span><div class="quantity-control"><button type="button" data-quantity="-1" data-brand="${item.product.brand}" aria-label="Decrease quantity">−</button><b>${item.quantity}</b><button type="button" data-quantity="1" data-brand="${item.product.brand}" aria-label="Increase quantity">＋</button></div></div><button type="button" aria-label="Remove ${item.product.brand}" data-remove="${item.product.brand}">×</button></div>`).join('') : '<div class="cart-empty"><span>＋</span><p>Your cart is empty.</p><small>Add products you would like to buy.</small></div>';
+            cartItems.innerHTML = shortlist.length ? shortlist.map(item => `<div class="cart-item"><img src="${escapeHTML(item.product.image)}" alt=""><div><strong>${escapeHTML(item.product.brand)}</strong><span>₹${(getProductPrice(item.product) * item.quantity).toLocaleString()}</span><div class="quantity-control"><button type="button" data-quantity="-1" data-brand="${escapeHTML(item.product.brand)}" aria-label="Decrease quantity">−</button><b>${item.quantity}</b><button type="button" data-quantity="1" data-brand="${escapeHTML(item.product.brand)}" aria-label="Increase quantity">＋</button></div></div><button type="button" aria-label="Remove ${escapeHTML(item.product.brand)}" data-remove="${escapeHTML(item.product.brand)}">×</button></div>`).join('') : '<div class="cart-empty"><span>＋</span><p>Your cart is empty.</p><small>Add products you would like to buy.</small></div>';
             cartItems.querySelectorAll('[data-quantity]').forEach(button => button.addEventListener('click', () => updateQuantity(button.dataset.brand, Number(button.dataset.quantity))));
             cartItems.querySelectorAll('[data-remove]').forEach(button => button.addEventListener('click', () => updateQuantity(button.dataset.remove, -shortlist.find(item => item.product.brand === button.dataset.remove).quantity)));
         }
@@ -339,21 +423,14 @@
 
         function handleAdminSubmit(event) {
             event.preventDefault();
-            const email = document.getElementById('adminEmail').value.trim();
-            const password = document.getElementById('adminPassword').value;
             const status = document.getElementById('adminStatus');
-            if (email === 'admin@hkpoint.com' && password === 'admin123') {
-                adminUnlocked = true;
-                status.textContent = 'Admin access granted for this browser session.';
-                status.classList.add('success');
-                document.getElementById('adminEditor').hidden = false;
-                renderAdminProducts();
-                showToast('Admin panel unlocked');
-            } else {
-                adminUnlocked = false;
-                status.textContent = 'Invalid demo admin credentials.';
-                status.classList.remove('success');
-            }
+            adminUnlocked = true;
+            status.textContent = 'Demo admin panel open. Changes apply only in this browser.';
+            status.classList.add('success');
+            document.getElementById('adminEditor').hidden = false;
+            renderAdminProducts();
+            renderAdminOrders();
+            showToast('Demo admin panel opened');
         }
 
         function handleCheckoutSubmit(event) {
@@ -363,10 +440,14 @@
             const payment = document.querySelector('input[name="payment"]:checked').value;
             const orderId = `HK${Date.now().toString().slice(-6)}`;
             const status = document.getElementById('checkoutStatus');
-            const details = `Order ${orderId} for ₹${total.toLocaleString()} placed successfully.`;
+            const details = `Order request ${orderId} for ₹${total.toLocaleString()} received.`;
+            orders.unshift({ id: orderId, customer: document.getElementById('checkoutName').value.trim(), phone: document.getElementById('checkoutPhone').value.trim(), address: document.getElementById('checkoutAddress').value.trim(), products: shortlist.map(item => ({ name: item.product.brand, quantity: item.quantity })), total, payment, date: new Date().toISOString(), status: 'Pending' });
+            localStorage.setItem('hkOrders', JSON.stringify(orders));
+            shortlist.forEach(item => { item.product.stock = Math.max(0, Number(item.product.stock || 0) - item.quantity); });
+            persistCatalog();
             if (payment === 'upi') {
                 window.location.href = `upi://pay?pa=hkpoint@upi&pn=HK%20Point&am=${total}&cu=INR&tn=${encodeURIComponent(orderId)}`;
-                status.textContent = `${details} Complete payment in your UPI app.`;
+                status.textContent = `${details} UPI payment was opened, but payment is not verified on this static site.`;
             } else {
                 status.textContent = `${details} We will confirm your COD delivery by phone.`;
             }
@@ -423,12 +504,15 @@
         document.getElementById('whatsappCart').addEventListener('click', askOnWhatsApp);
         document.getElementById('accountButton').addEventListener('click', () => openModal('accountModal'));
         document.getElementById('adminButton').addEventListener('click', () => openModal('adminModal'));
+        document.getElementById('clearCart').addEventListener('click', clearCart);
         document.getElementById('checkoutButton').addEventListener('click', () => shortlist.length ? openModal('checkoutModal') : showToast('Add a product first'));
         document.getElementById('accountForm').addEventListener('submit', handleCustomerSubmit);
         document.getElementById('adminForm').addEventListener('submit', handleAdminSubmit);
         document.getElementById('productEditForm').addEventListener('submit', handleProductEdit);
+        document.getElementById('addProductForm').addEventListener('submit', handleAddProduct);
+        document.getElementById('deleteProduct').addEventListener('click', handleDeleteProduct);
         document.getElementById('editProduct').addEventListener('change', loadProductIntoEditor);
-        document.getElementById('adminLogout').addEventListener('click', () => { adminUnlocked = false; document.getElementById('adminEditor').hidden = true; document.getElementById('adminStatus').textContent = 'Admin panel locked.'; });
+        document.getElementById('adminLogout').addEventListener('click', () => { adminUnlocked = false; document.getElementById('adminEditor').hidden = true; document.getElementById('adminStatus').textContent = 'Demo mode is locked.'; });
         document.getElementById('checkoutForm').addEventListener('submit', handleCheckoutSubmit);
         document.getElementById('customerRegister').addEventListener('click', () => { document.getElementById('accountTitle').textContent = 'Create account'; document.getElementById('accountStatus').textContent = 'Use your email and a six-character password.'; });
         document.querySelectorAll('[data-close-modal]').forEach(button => button.addEventListener('click', () => closeModal(button.dataset.closeModal)));

@@ -492,6 +492,7 @@ body { font-family: Georgia, 'Times New Roman', serif; color: var(--ink); backgr
 .contact-note { min-height: 40px; color: var(--muted); font: 12px/1.5 Arial, sans-serif; }
 .contact-btn { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 11px 13px; border-radius: 2px; color: white; background: var(--primary-blue); font: 700 12px Arial, sans-serif; }
 .contact-btn:hover { background: var(--light-blue); transform: none; }
+.contact-btn:disabled { cursor: not-allowed; opacity: .55; }
 .contact-btn span { color: #f9c7a9; font-size: 18px; }
 .empty-state { padding: 35px; border: 1px dashed var(--line); color: var(--muted); text-align: center; font: 14px Arial, sans-serif; }
 .contact-section { background: #eaf1ef; }
@@ -621,6 +622,15 @@ body { font-family: Georgia, 'Times New Roman', serif; color: var(--ink); backgr
 .editor-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .editor-heading h3 { color: var(--ink); font-size: 18px; font-weight: 500; }
 .editor-heading .text-button { margin: 0; }
+.danger-button { padding: 11px; border: 1px solid #c94f4f; color: #a52f2f; background: transparent; cursor: pointer; font: 700 12px Arial, sans-serif; }
+.add-product-section { margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--line); }
+.add-product-section h3 { margin-bottom: 14px; color: var(--ink); font-size: 18px; font-weight: 500; }
+.security-note { margin-bottom: 18px; padding: 11px 13px; border-left: 3px solid var(--coral); color: var(--muted); background: #fff3e9; font: 12px/1.5 Arial, sans-serif; }
+.order-section { margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--line); }
+.order-section h3 { margin-bottom: 12px; color: var(--ink); font-size: 18px; font-weight: 500; }
+.admin-order { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; padding: 11px 0; border-bottom: 1px solid var(--line); font: 12px Arial, sans-serif; }
+.admin-order span { color: var(--muted); text-align: right; }
+.admin-order select { grid-column: 1 / -1; padding: 7px; border: 1px solid var(--line); color: var(--ink); background: white; font: 12px Arial, sans-serif; }
 
 @media (max-width: 700px) {
     .brand-logo { flex-basis: 62px; width: 62px; height: 62px; }
